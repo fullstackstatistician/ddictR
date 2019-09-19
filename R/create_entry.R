@@ -39,8 +39,10 @@ create_entry <- function(data = merged.df, variable, epoch) {
     paste0("## Epoch ", epoch, "Statistics \n")
   )
   
+  group.text <- attr(subset.df[[variable]], "group")
   description.text <- attr(subset.df[[variable]], "description")
-  description.text <- attr(subset.df[[variable]], "derivation")
+  units.text <- attr(subset.df[[variable]], "units")
+  derivation.text <- attr(subset.df[[variable]], "derivation")
   figure_label.text <- attr(subset.df[[variable]], "figure_label")
   comments.text <- attr(subset.df[[variable]], "comments")
 
@@ -51,9 +53,13 @@ create_entry <- function(data = merged.df, variable, epoch) {
     
     cat(h1.text)
     cat("\n")
+    cat(paste0("Variable Group: ", group.text, "\n\n"))
     
     if (!is.null(description.text)) {
       cat(paste0("Description: ", description.text, "\n\n"))
+    }
+    if (!is.null(units.text)) {
+      cat(paste0("Units: ", units.text, "\n\n"))
     }
     if (!is.null(derivation.text)) {
       cat(paste0("Derivation: ", description.text, "\n\n"))
