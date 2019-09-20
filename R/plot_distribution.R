@@ -1,52 +1,42 @@
 plot_distribution <- function(data = merged.df, variable) {
-  if (is.null(label)) {
-    label <- variable
+  data.name <- deparse(substitute(data))
+  
+  if (is.character(data[[variable]])) {
+    output.code <- ""
+  } else if (is.factor(data[[variable]]) | length(unique(data[[variable]])) < 15) {
+    output.code <- glue::glue("
+    ggplot(data = {data.name}) +
+      geom_bar(aes({variable})) +
+      theme_minimal()
+    ")
+  } else if (inherits(data[[variable]], "Date")) {
+    output.code <- glue::glue("
+    ggplot(data = {data.name}) +
+      geom_histogram(aes({variable}), color = 'black', bins = 50) +
+      scale_x_date(labels = scales::date_format('%Y-%b'), date_breaks = '6 months') +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+    ")
+  } else { # hist curve code from https://stackoverflow.com/a/46876971
+    output.code <- glue::glue("
+    var <- merged.df[['{variable}']]
+    bw <- (max(var, na.rm = T) - min(var, na.rm = T)) / 30
+    m <- mean(var, na.rm = T)
+    sd <- sd(var, na.rm = T)
+    n <- length(!is.na(var))
+
+    ggplot(data = {data.name}) +
+      geom_histogram(aes({variable}), color = 'black', bins = 30) +
+      theme_minimal() +
+      stat_function(
+        fun = function(x, mean, sd, n, bw) {{
+          dnorm(x = x, mean = mean, sd = sd) * bw * n
+        }},
+        args = c(mean = m, sd = sd, n = n, bw = bw), 
+        color = 'red'
+      )
+    ")
   }
   
-  if (epoch == 0) {
-    subset.df <- data
-  } else if (epoch != 0) {
-    subset.df <- subset(data, epoch == epoch)
-  } else {
-    stop("Invalid value for epoch. Please specify 0 for overall statistics or 1, 2, 3, or 4 for epoch-specific statistics.\n\n")
-  }
-  
-  if (is.numeric(subset.df[[variable]])) {
-    sprintf(
-      "var <- subset.df[['%s']]\n
-       bw <- (max(var, na.rm = T) - min(var, na.rm = T)) / 30\n 
-       m <- mean(var, na.rm = T)\n
-       sd <- sd(var, na.rm = T)\n
-       n <- length(!is.na(var))\n
-                   
-        class(df[['%s']]) <- NULL
-        ggplot(data = na.omit(df)) +
-          geom_histogram(aes(%s), color = 'black', bins = 30) +
-          theme_minimal() +
-          stat_function(fun = function(x, mean, sd, n, bw) {
-            dnorm(x = x, mean = mean, sd = sd) * bw * n},
-            args = c(mean = m, sd = sd, n = n, bw = bw), color = 'red')",
-      variable, 
-      variable, 
-      variable
-    )
-  } else if (is.factor(subset.df[[variable]])) {
-    output.df <- purrr::map_dfr(
-      data.list,
-      function(x) {summary_statistics.factor(x[[variable]])}
-    )
-  } else if (inherits(subset.df[[variable]], "Date")) {
-    output.df <- purrr::map_dfr(
-      data.list,
-      function(x) {summary_statistics.Date(x[[variable]])}
-    )
-  } else if (is.character(subset.df[[variable]])) {
-    output.df <- purrr::map_dfr(
-      data.list,
-      function(x) {summary_statistics.character(x[[variable]])}
-    )
-  } else {
-    stop("Class for variable ", variable, " is not numeric, factor, Date, or character. Please check data type.\n\n")
-  }
-  
+  return(output.code)
 }

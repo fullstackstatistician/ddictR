@@ -1,0 +1,20 @@
+Package: ddictR
+Title: Create a Data Dictionary for any Data Set
+Version: 0.1
+Authors@R: 
+    person(given = c("Omair", "A.")
+           family = "Khan",
+           role = c("aut", "cre"),
+           email = "omair.a.khan@vumc.org",
+           comment = c(ORCID = "0000-0002-9259-9086"))
+Description: This package is intended to be used to create documentation to accompany a given data set.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports:
+    Hmisc,
+    dplyr,
+    ggplot2,
+    glue,
+    rmarkdown
+

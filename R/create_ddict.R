@@ -36,32 +36,46 @@ create_ddict <- function(data = merged.df,
   }
   
   write_out("---")
-  write_out(paste("title:", report_title))
-  if (!is.null(subtitle)) write_out(paste0('subtitle: \"', subtitle, '\"'))
-  write_out(paste("date:", format(Sys.time(),'%B %d, %Y %H:%M')))
-  write_out("output: pdf_document")
+  # write_out(paste("title:", report_title))
+  # if (!is.null(subtitle)) write_out(paste0('subtitle: \"', subtitle, '\"'))
+  # write_out(paste("date:", format(Sys.time(),'%B %d, %Y %H:%M')))
+  write_out("output:")
+  write_out("  pdf_document:")
+  write_out("    includes:")
+  write_out("      before_body: title.sty")
+  # write_out("  bookdown::pdf_book:")
+  # write_out("    toc: true")
+  write_out("    toc_depth: 2")
+  write_out("    df_print: kable")
+  write_out("    latex_engine: xelatex")
   write_out("---")
-  write_out("\n")
-  
+
   ### Hidden Setup Chunk ###
   
   chunk_wrapper(
-    x = paste0('library(ddictR) \nlibrary(Hmisc) \nlibrary(dplyr) \nlibrary(ggplot2)'),
+    x = paste0('library(Hmisc) \nlibrary(dplyr) \nlibrary(ggplot2)'),
     quiet = TRUE
   )
   
   ### Entries ###
   
-  write_out("# Variables")
+  write_out("\\newpage")
   
-  for (variable.i in names(data)) {
+  write_out("# Variables \n")
+  
+  for (variable.i in setdiff(names(data), c("map.id", "epoch"))) {
     create_individual_entry(data = data, variable = variable.i)
   }
+  
+  write_out("# Session Info \n")
+  
+  # chunk_wrapper(paste0('devtools::session_info()$platform'))
+  write_out(utils::toLatex(sessionInfo()))
   
   # force flush and close connection
   flush(file_connection)
   close(file_connection)
   
   ### Knit Document ###
-  #rmarkdown::render(rmd_file_path, 'pdf_document', pdf_file_name)
+  rmarkdown::render(rmd_file_path, 'all', pdf_file_name)
 }

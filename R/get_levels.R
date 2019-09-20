@@ -8,7 +8,9 @@ get_levels <- function(x) {
   
   levels.df <- data.frame(
     Value = levels.df$x,
-    Frequency = paste0(levels.df$Freq, " (", levels.df$Prop, ")")
+    Frequency = paste0(levels.df$Freq, " (", levels.df$Prop, ")"),
+    stringsAsFactors = FALSE,
+    row.names = NULL
   )
   
   return(levels.df)
