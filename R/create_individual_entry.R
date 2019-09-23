@@ -47,6 +47,14 @@ create_individual_entry <- function(data = merged.df, metadata = metadata.df, va
     write_out(paste0('* **Related Variables:** ', metadata[metadata[["variable"]] == variable, "related_variables"]))
   }
   
+  if (sum(is.na(data[[variable]])) > 0) {
+    write_out("\n#### Participants with missing values for this variable: \n")
+    write_out(paste0('* **Epoch 1:** ', print_missing(data = data[data[["epoch"]] == 1, ], variable = variable, id = "map.id")))
+    write_out(paste0('* **Epoch 2:** ', print_missing(data = data[data[["epoch"]] == 2, ], variable = variable, id = "map.id")))
+    write_out(paste0('* **Epoch 3:** ', print_missing(data = data[data[["epoch"]] == 3, ], variable = variable, id = "map.id")))
+    write_out(paste0('* **Epoch 4:** ', print_missing(data = data[data[["epoch"]] == 4, ], variable = variable, id = "map.id")))
+  }
+  
   write_out("\n")
   write_out("\\newpage")
 }
