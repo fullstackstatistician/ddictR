@@ -6,13 +6,13 @@ plot_distribution <- function(data = merged.df, variable) {
   } else if (is.factor(data[[variable]]) | length(unique(data[[variable]])) < 15) {
     output.code <- glue::glue("
     ggplot(data = {data.name}) +
-      geom_bar(aes({variable})) +
+      geom_bar(aes({variable}), na.rm = FALSE) +
       theme_minimal()
     ")
   } else if (inherits(data[[variable]], "Date")) {
     output.code <- glue::glue("
     ggplot(data = {data.name}) +
-      geom_histogram(aes({variable}), color = 'black', bins = 50) +
+      geom_histogram(aes({variable}), color = 'black', bins = 50, na.rm = TRUE) +
       scale_x_date(labels = scales::date_format('%Y-%b'), date_breaks = '6 months') +
       theme_minimal() +
       theme(axis.text.x = element_text(angle = 45, hjust = 1))
@@ -24,17 +24,15 @@ plot_distribution <- function(data = merged.df, variable) {
     m <- mean(var, na.rm = T)
     sd <- sd(var, na.rm = T)
     n <- length(!is.na(var))
-
-    ggplot(data = {data.name}) +
-      geom_histogram(aes({variable}), color = 'black', bins = 30) +
-      theme_minimal() +
-      stat_function(
-        fun = function(x, mean, sd, n, bw) {{
-          dnorm(x = x, mean = mean, sd = sd) * bw * n
-        }},
-        args = c(mean = m, sd = sd, n = n, bw = bw), 
-        color = 'red'
-      )
+      
+    ggplot(data = {data.name}, aes({variable})) +
+      geom_histogram(aes(y = ..density..), binwidth = bw, colour = 'black')  +
+      stat_function(fun = dnorm, args = list(mean = m, sd = sd), color = 'red') +
+      scale_y_continuous(
+        name = 'Density', 
+        sec.axis = sec_axis(trans = ~ . * bw * n, name = 'Count')
+      ) +
+      theme_minimal()
     ")
   }
   
