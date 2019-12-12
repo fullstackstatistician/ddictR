@@ -19,6 +19,9 @@ summarize_data <- function(data = merged.df, variable) {
       data.list,
       function(x) {summary_statistics.numeric(x[[variable]])}
     )
+    
+    output.df <- format_numeric(numeric_summary.df = output.df)
+    
     colnames(output.df) <- c("n", "nmiss", "distinct", "mean", "sd", "5%", "25%", "50%", "75%", "95%")
   } else if (is.factor(subset.df[[variable]])) {
     output.df <- purrr::map_dfr(
