@@ -4,7 +4,7 @@ get_levels <- function(x) {
   
   n <- sum(levels.df$Freq)
   
-  levels.df$Prop <- paste0(round(100 * levels.df$Freq / n, 2), "%")
+  levels.df$Prop <- paste0(round(100 * levels.df$Freq / n, 0), "%")
   
   levels.df <- data.frame(
     Value = levels.df$x,
