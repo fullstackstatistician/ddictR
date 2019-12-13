@@ -6,6 +6,10 @@ summarize_levels <- function(data = merged.df, variable) {
   subset.df <- data[, c("epoch", variable)]
   subset.df <- rVMAP::clear_labels(subset.df)
   
+  if (!is.factor(subset.df[[variable]])) {
+    subset.df[[variable]] <- factor(subset.df[[variable]], levels = sort(unique(subset.df[[variable]])))
+  }
+  
   data.list <- list(
     overall = subset.df,
     epoch1  = subset(subset.df, epoch == 1),
