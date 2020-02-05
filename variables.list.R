@@ -10,10 +10,10 @@ demo <- Cs(
 # APOE Genotype and Polygenetic Risk Scores
 apoe<-Cs(
   alleles.factor #corrected name "alleles"   
+  apoe4count,  
   apoe4pos.factor,
+  apoe2count,  
   apoe2pos.factor,
-  apoe4count,
-  apoe2count,
   #pgc.score, # Poly genetic risk score
   #pgc.noapoe.score # Poly genetic risk score removing apoe
 )
@@ -149,8 +149,6 @@ cardiac.mri <- Cs(
 
 # FSRP and Related Points
 fsrp.points <- Cs(
-  fsrp,
-  fsrp.minus.age.points,
   fsrp.age.pts,
   fsrp.sbp.pts,
   fsrp.diabetes.pts,
@@ -158,6 +156,8 @@ fsrp.points <- Cs(
   fsrp.cvd.pts,
   fsrp.afib.pts,
   fsrp.lvh.pts    
+  fsrp,  
+  fsrp.minus.age.points,  
 )
 
 # Brain MRI: White Matter Volume
@@ -312,11 +312,6 @@ variables.list <- list(
     variables = fsrp.points
   ),
   
-  neuropsych = list(
-    title = "Neuropsychological Assessment",
-    variables = neuropsych
-  ),
-  
   scd = list(
     title = "Cognitive Complaint",
     variables = scd
@@ -341,7 +336,12 @@ variables.list <- list(
     title = "Cardiac Structure and Function Based on MRI",
     variables = cardiac.mri
   ),
-  
+
+  neuropsych = list(
+    title = "Neuropsychological Assessment",
+    variables = neuropsych
+  ),
+   
   wml = list(
     title = "Brain MRI: White Matter Volume",
     variables = wml
