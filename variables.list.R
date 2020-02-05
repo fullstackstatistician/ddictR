@@ -4,50 +4,38 @@ demo <- Cs(
   sex.factor,    
   education,
   raceethnicity.factor,
-  apoe4pos.factor,    
   diagnosis.factor    
 )
 
 # APOE Genotype and Polygenetic Risk Scores
 apoe<-Cs(
+  alleles.factor #corrected name "alleles"   
   apoe4pos.factor,
   apoe2pos.factor,
   apoe4count,
   apoe2count,
-  alleles #corrected name "alleles" 
   #pgc.score, # Poly genetic risk score
   #pgc.noapoe.score # Poly genetic risk score removing apoe
 )
 
 # Medical History
 med.hx<-Cs(
+  height,
+  weight,
   bmi,
   bsa,
   sbp, 
   dbp,
+  pp, 
   cvd.factor,
   afib.factor,
   cvdafib.factor,
-  echo.lvh.factor,
   diabetes.factor,
   htnrx.factor,  
   hypertensive.factor,   
   htn.factor,  
   currentsmoking.factor,
   dyslipidemia.factor
-)
-
-# FSRP and Related Points
-fsrp.points <- Cs(
-  fsrp,
-  fsrp.minus.age.points,
-  fsrp.age.pts,
-  fsrp.sbp.pts,
-  fsrp.diabetes.pts,
-  fsrp.cigs.pts,
-  fsrp.cvd.pts,
-  fsrp.afib.pts,
-  fsrp.lvh.pts    
 )
 
 # Neuropsychological Assessment 
@@ -132,6 +120,7 @@ cardiac.echo<-Cs(
   echo.esv,
   echo.lvot,
   echo.myocardial.contraction.fraction
+  echo.lvh.factor
   )
 
 # Cardiac Structure and Function Based on MRI
@@ -157,6 +146,19 @@ cardiac.mri <- Cs(
   qstrain.avg.grs,
   pwv.usable,
   pwv)
+
+# FSRP and Related Points
+fsrp.points <- Cs(
+  fsrp,
+  fsrp.minus.age.points,
+  fsrp.age.pts,
+  fsrp.sbp.pts,
+  fsrp.diabetes.pts,
+  fsrp.cigs.pts,
+  fsrp.cvd.pts,
+  fsrp.afib.pts,
+  fsrp.lvh.pts    
+)
 
 # Brain MRI: White Matter Volume
 lobe<-Cs(
@@ -285,6 +287,7 @@ swi<-Cs(
   swi.microbleeds.number.factor
 )
 svd<-c(lac, pvs.han, pvs.pat, swi)
+
 
 ####
 
