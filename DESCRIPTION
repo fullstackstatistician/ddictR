@@ -2,7 +2,7 @@ Package: ddictR
 Title: Create a Data Dictionary for any Data Set
 Version: 0.1
 Authors@R: 
-    person(given = c("Omair", "A.")
+    person(given = c("Omair", "A."),
            family = "Khan",
            role = c("aut", "cre"),
            email = "omair.a.khan@vumc.org",
