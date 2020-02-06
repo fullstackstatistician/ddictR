@@ -1,4 +1,5 @@
 create_individual_entry <- function(data = merged.df, metadata = metadata.df, variable) {
+  
   write_out(paste0('## Variable: ', variable, '\n'))
   
   if (!is.na(metadata[metadata[["variable"]] == variable, "label"])) {
@@ -21,7 +22,7 @@ create_individual_entry <- function(data = merged.df, metadata = metadata.df, va
   
   chunk_wrapper(
     plot_distribution(variable = variable), 
-    options = c("echo = FALSE", "warning = FALSE", "message = FALSE", "fig.height = 2.5", "fig.width = 4.2", "fig.align = 'center'")
+    options = c("echo = FALSE", "warning = FALSE", "message = FALSE", "fig.height = 4", "fig.width = 5.5", "fig.align = 'center'")
   )
 
   chunk_wrapper(paste0('summarize_data(variable = \"', variable, '\")'))
@@ -31,21 +32,8 @@ create_individual_entry <- function(data = merged.df, metadata = metadata.df, va
   }
   
   if (is.numeric(data[[variable]]) | inherits(data[[variable]], "Date")) {
-    write_out(paste0('##### Epoch 1 \n'))
-    write_out(paste0('* **Lowest Unique Values:** ', lowest_values(data[data[["epoch"]] == 1, variable])))
-    write_out(paste0('* **Highest Unique Values:** ', highest_values(data[data[["epoch"]] == 1, variable])))
-    
-    write_out(paste0('##### Epoch 2 \n'))
-    write_out(paste0('* **Lowest Unique Values:** ', lowest_values(data[data[["epoch"]] == 2, variable])))
-    write_out(paste0('* **Highest Unique Values:** ', highest_values(data[data[["epoch"]] == 2, variable])))
-    
-    write_out(paste0('##### Epoch 3 \n'))
-    write_out(paste0('* **Lowest Unique Values:** ', lowest_values(data[data[["epoch"]] == 3, variable])))
-    write_out(paste0('* **Highest Unique Values:** ', highest_values(data[data[["epoch"]] == 3, variable])))
-    
-    write_out(paste0('##### Epoch 4 \n'))
-    write_out(paste0('* **Lowest Unique Values:** ', lowest_values(data[data[["epoch"]] == 4, variable])))
-    write_out(paste0('* **Highest Unique Values:** ', highest_values(data[data[["epoch"]] == 4, variable])))
+    write_out(paste0('#### Extreme Values \n'))
+    chunk_wrapper(paste0('tabulate_extreme_values(variable = \"', variable, '\")'))
   }
   
   if (!is.na(metadata[metadata[["variable"]] == variable, "figure_label"])) {

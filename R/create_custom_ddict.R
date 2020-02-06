@@ -57,6 +57,11 @@ create_custom_ddict <- function(data = merged.df,
     quiet = TRUE
   )
   
+  chunk_wrapper(
+    x = paste0('label_epoch <- function(string) { lapply(string, function(x) paste0("Epoch ", x)) }'),
+    quiet = TRUE
+  )
+  
   ### Entries ###
   
   write_out("\\newpage")
