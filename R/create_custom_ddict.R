@@ -1,5 +1,5 @@
 create_custom_ddict <- function(data = merged.df, 
-                         file_name = paste0("vmap_data_dictionary_m", format(Sys.time(),'%Y%m%d_%H%M')), 
+                         file_name = paste0("vmap_data_dictionary_m", format(Sys.time(),'%Y%m%d')), 
                          save_directory = "~/dev", 
                          overwrite = TRUE, 
                          report_title = "VMAP Data Dictionary", 
@@ -71,6 +71,10 @@ create_custom_ddict <- function(data = merged.df,
     }
   }
   
+  write_out("# Participants Missing All Data by Epoch \n")
+  create_missing_summary()
+  
+  write_out("\\newpage")
   write_out("# Session Info \n")
   
   # chunk_wrapper(paste0('devtools::session_info()$platform'))
