@@ -107,15 +107,18 @@ csf <- Cs(
 )
 
 # Blood-based Biomarkers
-blood<-Cs(
-  biomarkers.abx40.plasma,
-  biomarkers.ab1.42.plasma,
-  biomarkers.tau.plasma,
-  biomarkers.nfl.plasma,
-  biomarkers.albumin.plasma,
+blood <- Cs(
+  biomarkers.leptin,
+  biomarkers.il6,
+  biomarkers.tnfalpha,
   biomarkers.vegf,
-  biomarkers.il6
-  )
+  biomarkers.vegf.serum,
+  biomarkers.nfl.plasma,
+  biomarkers.tau.plasma,
+  biomarkers.ab1.42.plasma,
+  biomarkers.abx40.plasma,
+  biomarkers.albumin.plasma
+)
 
 # Cardiac Structure and Function Based on Echo
 cardiac.echo<-Cs(
