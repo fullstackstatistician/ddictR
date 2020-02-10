@@ -9,11 +9,11 @@ demo <- Cs(
 
 # APOE Genotype and Polygenetic Risk Scores
 apoe<-Cs(
-  alleles.factor #corrected name "alleles"   
+  alleles.factor, #corrected name "alleles"   
   apoe4count,  
   apoe4pos.factor,
   apoe2count,  
-  apoe2pos.factor,
+  apoe2pos.factor
   #pgc.score, # Poly genetic risk score
   #pgc.noapoe.score # Poly genetic risk score removing apoe
 )
@@ -74,28 +74,36 @@ scd<-Cs(
 )
 
 # Cerebrospinal Fluid (CSF) Biomarkers
-csf<- Cs(
-  csf.abx40 ,              
-  csf.ab1.42 ,        
+csf <- Cs(
+  csf.abx42,
+  csf.abx40,
+  csf.abx42.abx40.ratio,
+  csf.ab1.42,
   amyloidPos.factor,    
-  csf.abeta42.40.ratio,
-  csf.tau,            
-  tauPos.factor,    
+  csf.tau,
+  tauPos.factor,
+  csf.snap.factor,
   csf.ptau,
-  ptauPos.factor,    
-  csf.snap.factor,    
+  ptauPos.factor,
   csf.nfl,
   csf.neurogranin,
   csf.ykl40,
+  csf.gap43,
+  csf.albumin,
   csf.plasma.albumin.ratio,
   csf.strem2,
-  csf.gap43,
-  csf.brevican, 
-  csf.timp1, 
-  csf.timp2, 
-  csf.mmp2, 
-  csf.mmp3, 
-  csf.mmp9    
+  csf.brevican,
+  csf.timp1,
+  csf.timp2,
+  csf.mmp2,
+  csf.mmp3,
+  csf.mmp9,
+  csf.upenn.ab1.42,
+  csf.upenn.tau,
+  csf.upenn.ptau,
+  csf.upenn.tau.ab1.42.ratio,
+  csf.upenn.ptau.ab1.42.ratio,
+  csf.abeta42.40.ratio
 )
 
 # Blood-based Biomarkers
