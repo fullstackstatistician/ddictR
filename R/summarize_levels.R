@@ -20,7 +20,8 @@ summarize_levels <- function(data = merged.df, variable) {
   
   output.df <- purrr::map_dfc(
     data.list,
-    function(x) {get_levels(x[[variable]])$Frequency}
+    # function(x) {get_levels2(x[[variable]])[, c("N", "P")]}
+    function(x) { get_levels(x[[variable]])$Frequency }
   )
   
   names(output.df) <- c("Overall", "Epoch 1", "Epoch 2", "Epoch 3", "Epoch 4")
@@ -31,5 +32,21 @@ summarize_levels <- function(data = merged.df, variable) {
     stringsAsFactors = FALSE
   )
   
+  # knitr::kable(
+    # output.df, 
+    # align = c('l', rep('r', 5))
+    # col.names = c("Value", "N", "%", "N", "%", "N", "%", "N", "%", "N", "%")
+  # )
+  
   return(output.df)
+  
+  # print(knitr::kable(output.df, "latex"))
 }
+
+# #kable(
+#   format = "latex",
+#   # booktabs = TRUE,
+#   align = c('l', rep('r', 10)),
+#   col.names = c("Value", "N", "%", "N", "%", "N", "%", "N", "%", "N", "%") #rep('', 11)
+# ) #%>%
+#kableExtra::add_header_above(c(" ", "Overall" = 2, "Epoch 1" = 2, "Epoch 2" = 2, "Epoch 3" = 2, "Epoch 4" = 2))
