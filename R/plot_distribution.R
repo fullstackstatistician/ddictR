@@ -7,9 +7,10 @@ plot_distribution <- function(data = merged.df, variable) {
     output.code <- glue::glue("
     ggplot(data = {data.name}) +
       geom_bar(aes(factor({variable})), na.rm = FALSE) +
-      scale_x_discrete(name = '{variable}', label = c('Ambiguous At Risk' = 'AAR')) +
+      scale_x_discrete(label = c('Ambiguous At Risk' = 'AAR')) +
       facet_wrap(~ epoch, ncol = 2, labeller = label_epoch) +
-      theme_minimal()
+      theme_minimal() +
+      xlab(NULL)
     ")
   } else if (inherits(data[[variable]], "Date")) {
     output.code <- glue::glue("
@@ -18,7 +19,8 @@ plot_distribution <- function(data = merged.df, variable) {
       scale_x_date(labels = scales::date_format('%Y-%b'), date_breaks = '6 months') +
       facet_wrap(~ epoch, ncol = 2, labeller = label_epoch) +
       theme_minimal() +
-      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+      theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+      xlab(NULL)
     ")
   } else { # hist curve code from https://stackoverflow.com/a/46876971
     output.code <- glue::glue("
@@ -36,7 +38,8 @@ plot_distribution <- function(data = merged.df, variable) {
         sec.axis = sec_axis(trans = ~ . * bw * n, name = 'Count')
       ) +
       facet_wrap(~ epoch, ncol = 2, labeller = label_epoch) +
-      theme_minimal()
+      theme_minimal() +
+      xlab(NULL)
     ")
   }
   
