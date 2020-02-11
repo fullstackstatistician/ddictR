@@ -15,6 +15,7 @@ summarize_data <- function(data = merged.df, variable) {
   )
   
   if (is.numeric(subset.df[[variable]])) {
+    
     output.df <- purrr::map_dfr(
       data.list,
       function(x) {summary_statistics.numeric(x[[variable]])}
@@ -22,31 +23,53 @@ summarize_data <- function(data = merged.df, variable) {
     
     output.df <- format_numeric(numeric_summary.df = output.df)
     
-    colnames(output.df) <- c("n", "nmiss", "distinct", "mean", "sd", "5%", "25%", "50%", "75%", "95%")
+    # colnames(output.df) <- c("n", "nmiss", "distinct", "mean", "sd", "5%", "25%", "50%", "75%", "95%")
+    colnames(output.df) <- c("N", "Missing", "Distinct", "Mean", "SD", "5%", "25%", "50%", "75%", "95%")
+    
   } else if (is.factor(subset.df[[variable]])) {
     output.df <- purrr::map_dfr(
       data.list,
       function(x) {summary_statistics.factor(x[[variable]])}
     )
+    
+    colnames(output.df) <- c("N", "Missing", "Distinct")
+    
   } else if (inherits(subset.df[[variable]], "Date")) {
     output.df <- purrr::map_dfr(
       data.list,
       function(x) {summary_statistics.Date(x[[variable]])}
     )
+    
+    colnames(output.df) <- c("N", "Missing", "Distinct", "Mean", "SD", "Median")
+    
   } else if (is.character(subset.df[[variable]])) {
     output.df <- purrr::map_dfr(
       data.list,
       function(x) {summary_statistics.character(x[[variable]])}
     )
+    
+    colnames(output.df) <- c("N", "Missing", "Distinct")
+    
   } else {
     stop("Class for variable ", variable, " is not numeric, factor, Date, or character. Please check data type.\n\n")
   }
   
+  # output.df <- cbind(
+  #   subset = c("Overall", "Epoch 1", "Epoch 2", "Epoch 3", "Epoch 4"),
+  #   output.df,
+  #   stringsAsFactors = FALSE
+  # )
+  
   output.df <- cbind(
-    subset = c("Overall", "Epoch 1", "Epoch 2", "Epoch 3", "Epoch 4"),
+    ` ` = c("Overall", "Epoch 1", "Epoch 2", "Epoch 3", "Epoch 4"),
     output.df,
     stringsAsFactors = FALSE
   )
+  
+  # colnames.temp <- names(output.df)
+  # colnames.temp[1] <- ""
+  # 
+  # names(output.df) <- colnames.temp
   
   return(output.df)
 }
