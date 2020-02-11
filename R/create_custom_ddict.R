@@ -47,7 +47,7 @@ create_custom_ddict <- function(data = merged.df,
   # write_out("    toc: true")
   write_out("    toc_depth: 2")
   write_out("    df_print: kable")
-  write_out("    latex_engine: xelatex")
+  # write_out("    latex_engine: xelatex")
   write_out("---")
   
   ### Hidden Setup Chunk ###
