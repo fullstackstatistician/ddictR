@@ -1,15 +1,15 @@
 # Demographics
-demo <- Cs(
+demo.var <- Cs(
   age,
-  sex.factor,    
+  sex.factor,
   education,
   raceethnicity.factor,
   diagnosis.factor    
 )
 
 # APOE Genotype and Polygenetic Risk Scores
-apoe<-Cs(
-  alleles.factor, #corrected name "alleles"   
+apoe.var <- Cs(
+  alleles.factor,
   apoe4count,  
   apoe4pos.factor,
   apoe2count,  
@@ -19,7 +19,7 @@ apoe<-Cs(
 )
 
 # Medical History
-med.hx<-Cs(
+med.hx.var <- Cs(
   height,
   weight,
   bmi,
@@ -39,7 +39,7 @@ med.hx<-Cs(
 )
 
 # Neuropsychological Assessment 
-neuropsych <- Cs(
+neuropsych.var <- Cs(
   np.moca,
   np.bnt,
   np.anim,
@@ -64,7 +64,7 @@ neuropsych <- Cs(
 )
 
 # Cognitive Complaint
-scd<-Cs(
+scd.var <- Cs(
   tot.complaint,
   tot.complaint.short,
   tot.complaint.gifford.45,
@@ -74,7 +74,7 @@ scd<-Cs(
 )
 
 # Cerebrospinal Fluid (CSF) Biomarkers
-csf <- Cs(
+csf.var <- Cs(
   csf.abx42,
   csf.abx40,
   csf.abx42.abx40.ratio,
@@ -107,7 +107,7 @@ csf <- Cs(
 )
 
 # Blood-based Biomarkers
-blood <- Cs(
+blood.var <- Cs(
   biomarkers.leptin,
   biomarkers.il6,
   biomarkers.tnfalpha,
@@ -121,7 +121,7 @@ blood <- Cs(
 )
 
 # Cardiac Structure and Function Based on Echo
-cardiac.echo<-Cs(
+cardiac.echo.var <- Cs(
   echo.co.calc, 
   echo.cardiac.index,
   echo.ef.calc,
@@ -130,19 +130,19 @@ cardiac.echo<-Cs(
   echo.edv,
   echo.esv,
   echo.lvot,
-  echo.myocardial.contraction.fraction
+  echo.myocardial.contraction.fraction,
   echo.lvh.factor
-  )
+)
 
 # Cardiac Structure and Function Based on MRI
-cardiac.mri <- Cs(
-  qmass.usable,
+cardiac.mri.var <- Cs(
+  qmass.usable.factor,
   qmass.lv.absolute.ed.mass,
   qmass.lv.absolute.sv,
   qmass.lv.bsa.indexed.ed.mass,
   qmass.lv.bsa.indexed.co, 
   qmass.lv.absolute.ef,
-  qstrain.usable,
+  qstrain.usable.factor,
   qstrain.2ch.myogls,
   qstrain.2ch.myogcs,
   qstrain.2ch.sd.ts.peak,
@@ -155,42 +155,48 @@ cardiac.mri <- Cs(
   qstrain.mid.sd.rs.peak,
   qstrain.mid.sd.cs.peak,
   qstrain.avg.grs,
-  pwv.usable,
-  pwv)
+  pwv.usable.factor,
+  pwv
+)
 
 # FSRP and Related Points
-fsrp.points <- Cs(
+fsrp.points.var <- Cs(
   fsrp.age.pts,
   fsrp.sbp.pts,
   fsrp.diabetes.pts,
   fsrp.cigs.pts,
   fsrp.cvd.pts,
   fsrp.afib.pts,
-  fsrp.lvh.pts    
+  fsrp.lvh.pts,
   fsrp,  
-  fsrp.minus.age.points,  
+  fsrp.minus.age.points
 )
 
 # Brain MRI: White Matter Volume
-lobe<-Cs(
+lobe <- Cs(
   hemisphere,
   frontal.lobe,
   occipital.lobe,
   temporal.lobe,
   parietal.lobe
 )
-my.lobe<-function(prefix=NULL, lob, suffix=NULL){
-  if(length(prefix)>0) {
-    if(length(suffix)>0) paste(prefix, lob, suffix, sep='.') else paste(prefix, lob, sep='.')
-  }else{
-    if(length(suffix)>0) paste(lob, suffix, sep='.') else lob
+
+my.lobe <- function(prefix = NULL, lob, suffix = NULL){
+  if (length(prefix) > 0) {
+    if (length(suffix) > 0) paste(prefix, lob, suffix, sep = '.') else paste(prefix, lob, sep = '.')
+  } else{
+    if (length(suffix) > 0) paste(lob, suffix, sep = '.') else lob
   }
 }
 
-wml.roi<-c(rbind(my.lobe('left', lobe), 
-             my.lobe('right', lobe)))
+wml.roi <- c(
+  rbind(
+    my.lobe('left', lobe), 
+    my.lobe('right', lobe)
+  )
+)
 
-wml<-c(
+wml.var <- c(
   'wml.usable.factor',
   'wml.volume',
   paste0('wml.volume.', wml.roi)
@@ -211,71 +217,89 @@ ma.comp <- Cs(
   ma.rh.inf.lat.vent.vol
 )
 
-ma.roi<-c(
+ma.roi <- c(
   'ma.grey.matter',
   'ma.left.hemisphere',
   'ma.right.hemisphere',
-   paste0('ma.', c(rbind(my.lobe('left', lobe[-1], 'vol'),
-                         my.lobe('right', lobe[-1], 'vol')
-                  )))
+  paste0('ma.', c(rbind(my.lobe('left', lobe[-1], 'vol'),
+                        my.lobe('right', lobe[-1], 'vol')
+  )))
 )
-ma <- c('ma.usable.factor', ma.comp, ma.roi)
+
+ma.var <- c(
+  'ma.usable.factor', 
+  ma.comp, 
+  ma.roi
+)
 
 # Brain MRI:: Cerebrol Blood Flow (CBF) ROI assessed by ASL
-asl.roi<-c('grey.matter',
-       rbind(my.lobe('left', lobe, 'hct'), 
-             my.lobe('right', lobe, 'hct')))
-       
+asl.roi <- c(
+  'grey.matter',
+  rbind(
+    my.lobe('left', lobe, 'hct'), 
+    my.lobe('right', lobe, 'hct')
+  )
+)
+
 asl.rest  <- c('asl.rest.usable.hct.factor', paste0('asl.rest.', asl.roi))
 asl.chall <- c('asl.chall.usable.hct.factor', paste0('asl.chall.', asl.roi))
 asl.reac  <- c('asl.reac.usable.hct.factor', paste0('asl.reac.', asl.roi))
-asl <- c(asl.rest, asl.chall, asl.reac)
+
+asl.var <- c(
+  asl.rest, 
+  asl.chall, 
+  asl.reac
+)
 
 # Brain MRI: Vessel Wall Imaging
 vwi.ica <- Cs(
-    vwi.ica,
-    vwi.right.ica,
-    vwi.left.ica
-#    vwi.right.ica.id.adj,
-#    vwi.left.ica.id.adj
+  vwi.ica,
+  vwi.right.ica,
+  vwi.left.ica
+  #    vwi.right.ica.id.adj,
+  #    vwi.left.ica.id.adj
 )
+
 vwi.aca <- Cs(
-    vwi.aca,
-    vwi.right.aca,
-    vwi.left.aca
-#    vwi.right.aca.id.adj,
-#    vwi.left.aca.id.adj
+  vwi.aca,
+  vwi.right.aca,
+  vwi.left.aca
+  #    vwi.right.aca.id.adj,
+  #    vwi.left.aca.id.adj
 )
 
 vwi.mca <- Cs(
-    vwi.mca,
-    vwi.right.mca,
-    vwi.left.mca
-    # vwi.right.mca.id.adj,
-    # vwi.left.mca.id.adj
+  vwi.mca,
+  vwi.right.mca,
+  vwi.left.mca
+  # vwi.right.mca.id.adj,
+  # vwi.left.mca.id.adj
 )
-vwi.vb<-Cs(vwi.vb
-           #vwi.vb.id.adj
-           )
+
+vwi.vb <- Cs(
+  vwi.vb
+  #vwi.vb.id.adj
+)
 
 vwi.pre <- c(vwi.ica, vwi.aca, vwi.mca, vwi.vb)
-vwi.id<-paste0(vwi.pre, '.id')
-vwi.thick<-paste0(vwi.pre, '.thick')
-vwi<-c(
+vwi.id <- paste0(vwi.pre, '.id')
+vwi.thick <- paste0(vwi.pre, '.thick')
+vwi.var <- c(
   #'vwi.scan.quality', #vessel wall index scan quality: missing means VWI scan not acquired; 1 means poor quality and should be excluded
   'vwi.usable.factor', #vessel wall index usable variable; has not been used
-   vwi.id, 
-   vwi.thick)
+  vwi.id, 
+  vwi.thick
+)
 
 
 # Brain MRI: Cerebral Small Vessel Disease Markers 
-
-lac<-Cs(
+lac <- Cs(
   lacunar.infarcts.usable.factor,
   lacunar.infarcts.number,
-  lacunar.infarcts.number.factor)
+  lacunar.infarcts.number.factor
+)
 
-pvs.han<-Cs(
+pvs.han <- Cs(
   pvs.han.usable.factor,
   pvs.han.basal.ganglia,
   pvs.han.basal.ganglia.factor,
@@ -284,7 +308,8 @@ pvs.han<-Cs(
   pvs.han.total,
   pvs.han.total.factor
 )
-pvs.pat<-Cs(
+
+pvs.pat <- Cs(
   pvs.pat.usable.factor,
   pvs.pat.centrum.factor,
   pvs.pat.mesencephalon.factor,
@@ -292,90 +317,97 @@ pvs.pat<-Cs(
   pvs.pat.basal.ganglia,
   pvs.pat.basal.ganglia.factor
 )
-swi<-Cs(
+
+swi <- Cs(
   swi.usable.factor,
   swi.microbleeds.number,
   swi.microbleeds.number.factor
 )
-svd<-c(lac, pvs.han, pvs.pat, swi)
+
+svd.var <- c(
+  lac, 
+  pvs.han, 
+  pvs.pat, 
+  swi
+)
 
 
 ####
 
 variables.list <- list(
-  demo = list(
+  demo.var = list(
     title = "Demographics",
-    variables = demo
+    variables = demo.var
   ),
   
-  apoe = list(
+  apoe.var = list(
     title = "APOE Genotype and Polygenetic Risk Scores",
-    variables = apoe
+    variables = apoe.var
   ),
   
-  med.hx = list(
+  med.hx.var = list(
     title = "Medical History",
-    variables = med.hx
+    variables = med.hx.var
   ),
   
-  fsrp.points = list(
+  fsrp.points.var = list(
     title = "FSRP and Related Points",
-    variables = fsrp.points
+    variables = fsrp.points.var
   ),
   
-  scd = list(
+  scd.var = list(
     title = "Cognitive Complaint",
-    variables = scd
+    variables = scd.var
   ),
   
-  csf = list(
+  csf.var = list(
     title = "Cerebrospinal Fluid (CSF) Biomarkers",
-    variables = csf
+    variables = csf.var
   ),
   
-  blood = list(
+  blood.var = list(
     title = "Blood-based Biomarkers",
-    variables = blood
+    variables = blood.var
   ),
   
-  cardiac.echo = list(
+  cardiac.echo.var = list(
     title = "Cardiac Structure and Function Based on Echocardiogram",
-    variables = cardiac.echo
+    variables = cardiac.echo.var
   ),
   
-  cardiac.mri = list(
+  cardiac.mri.var = list(
     title = "Cardiac Structure and Function Based on MRI",
-    variables = cardiac.mri
+    variables = cardiac.mri.var
   ),
-
-  neuropsych = list(
+  
+  neuropsych.var = list(
     title = "Neuropsychological Assessment",
-    variables = neuropsych
+    variables = neuropsych.var
   ),
-   
-  wml = list(
+  
+  wml.var = list(
     title = "Brain MRI: White Matter Volume",
-    variables = wml
+    variables = wml.var
   ),
   
-  ma = list(
+  ma.var = list(
     title = "Brain MRI: Grey Matter Volume",
-    variables = ma
+    variables = ma.var
   ),
   
-  asl = list(
+  asl.var = list(
     title = "Brain MRI: Cerebral Blood Flow (CBF) ROI assessed by ASL",
-    variables = asl
+    variables = asl.var
   ),
   
-  vwi = list(
+  vwi.var = list(
     title = "Brain MRI: Vessel Wall Imaging",
-    variables = vwi
+    variables = vwi.var
   ),
   
-  svd = list(
+  svd.var = list(
     title = "Brain MRI: Cerebral Small Vessel Disease Markers",
-    variables = svd
+    variables = svd.var
   )
 )
 
