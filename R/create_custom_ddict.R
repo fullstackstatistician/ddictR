@@ -1,10 +1,10 @@
 create_custom_ddict <- function(data = merged.df, 
-                         file_name = paste0("vmap_data_dictionary_m", format(Sys.time(),'%Y%m%d')), 
-                         save_directory = "~/dev", 
-                         overwrite = TRUE, 
-                         report_title = "VMAP Data Dictionary", 
-                         data_download_date = NULL, 
-                         data_merge_date = NULL
+                                file_name = paste0("vmap_data_dictionary_m", format(Sys.time(),'%Y%m%d')), 
+                                save_directory = "~/dev/ddictR", 
+                                overwrite = TRUE, 
+                                report_title = "VMAP Data Dictionary", 
+                                data_download_date = NULL, 
+                                data_merge_date = NULL
 ) {
   
   ### set up file names and paths ###
@@ -39,9 +39,11 @@ create_custom_ddict <- function(data = merged.df,
   # write_out(paste("title:", report_title))
   # if (!is.null(subtitle)) write_out(paste0('subtitle: \"', subtitle, '\"'))
   # write_out(paste("date:", format(Sys.time(),'%B %d, %Y %H:%M')))
+  # write_out("subparagraph: yes")
   write_out("output:")
   write_out("  pdf_document:")
   write_out("    includes:")
+  write_out("      in_header: header.sty")
   write_out("      before_body: title.sty")
   # write_out("  bookdown::pdf_book:")
   # write_out("    toc: true")
