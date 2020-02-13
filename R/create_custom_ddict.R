@@ -45,9 +45,8 @@ create_custom_ddict <- function(data = merged.df,
   write_out("    includes:")
   write_out("      in_header: header.sty")
   write_out("      before_body: title.sty")
-  # write_out("  bookdown::pdf_book:")
-  # write_out("    toc: true")
-  write_out("    toc_depth: 2")
+  # write_out("    toc: true") # disabled because table of contents is called in title.sty
+  # write_out("    toc_depth: 1") # disabled because table of contents is called in title.sty; counter is manually specified
   write_out("    df_print: kable")
   # write_out("    latex_engine: xelatex")
   write_out("---")
@@ -55,7 +54,7 @@ create_custom_ddict <- function(data = merged.df,
   ### Hidden Setup Chunk ###
   
   chunk_wrapper(
-    x = paste0('library(Hmisc) \nlibrary(dplyr) \nlibrary(ggplot2)'),
+    x = paste0('library(Hmisc) \nlibrary(dplyr) \nlibrary(ggplot2) \nlibrary(kableExtra)'),
     quiet = TRUE
   )
   
@@ -94,3 +93,4 @@ create_custom_ddict <- function(data = merged.df,
   ### Knit Document ###
   rmarkdown::render(rmd_file_path, 'all', pdf_file_name)
 }
+

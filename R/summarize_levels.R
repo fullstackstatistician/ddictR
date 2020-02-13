@@ -20,11 +20,11 @@ summarize_levels <- function(data = merged.df, variable) {
   
   output.df <- purrr::map_dfc(
     data.list,
-    # function(x) {get_levels2(x[[variable]])[, c("N", "P")]}
-    function(x) { get_levels(x[[variable]])$Frequency }
+    function(x) {get_levels2(x[[variable]])[, c("N", "P")]}
+    # function(x) { get_levels(x[[variable]])$Frequency }
   )
   
-  names(output.df) <- c("Overall", "Epoch 1", "Epoch 2", "Epoch 3", "Epoch 4")
+  # names(output.df) <- c("Overall", "Epoch 1", "Epoch 2", "Epoch 3", "Epoch 4")
   
   output.df <- cbind(
     Value = c(levels(subset.df[[variable]]), "Missing"),
