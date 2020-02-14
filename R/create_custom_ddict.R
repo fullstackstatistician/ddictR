@@ -77,14 +77,17 @@ create_custom_ddict <- function(data = merged.df,
     }
   }
   
-  write_out("# Participants Missing All Data by Epoch \n")
+  write_out("# IDs of Participants Missing All Data by Epoch \n")
   create_missing_summary()
   
   write_out("\\newpage")
   write_out("# Session Info \n")
   
   # chunk_wrapper(paste0('devtools::session_info()$platform'))
-  write_out(utils::toLatex(sessionInfo()))
+  # write_out(utils::toLatex(sessionInfo()))
+  chunk_wrapper(
+    paste0('tibble::enframe(sapply(devtools::session_info()$platform, unname)) %>% kable(format = \"latex\", booktabs = TRUE) %>% kable_styling(position = \"center\")')
+  )
   
   # force flush and close connection
   flush(file_connection)

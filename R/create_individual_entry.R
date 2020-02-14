@@ -24,6 +24,8 @@ create_individual_entry <- function(data = merged.df, metadata = metadata.df, va
     plot_distribution(variable = variable), 
     options = c("echo = FALSE", "warning = FALSE", "message = FALSE", "fig.height = 4", "fig.width = 5.5", "fig.align = 'center'")
   )
+  
+  write_out(paste0('### Summary Statistics \n'))
 
   chunk_wrapper(
     paste0('summarize_data(variable = \"', variable, '\") %>% kable(format = \"latex\", booktabs = TRUE) %>% kable_styling(position = \"center\")')
