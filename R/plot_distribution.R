@@ -23,24 +23,31 @@ plot_distribution <- function(data = merged.df, variable) {
       xlab(NULL)
     ")
   } else { # hist curve code from https://stackoverflow.com/a/46876971
-    output.code <- glue::glue("
-    var <- merged.df[['{variable}']]
-    bw <- (max(var, na.rm = T) - min(var, na.rm = T)) / 30
-    m <- mean(var, na.rm = T)
-    sd <- sd(var, na.rm = T)
-    n <- length(!is.na(var))
-    
-    ggplot(data = {data.name}, aes({variable})) +
-      geom_histogram(aes(y = ..density..), binwidth = bw, colour = 'black', na.rm = TRUE)  +
-      stat_function(fun = dnorm, args = list(mean = m, sd = sd), color = 'red') +
-      scale_y_continuous(
-        name = 'Density', 
-        sec.axis = sec_axis(trans = ~ . * bw * n, name = 'Count')
+    output.code <- glue::glue('
+    density.df <- split({data.name}[, c("epoch", "{variable}")], {data.name}$epoch) %>% 
+    purrr::map_df(
+      ~ tibble(
+        {variable} = seq(0.95*min(.x[["{variable}"]], na.rm = T), 1.05*max(.x[["{variable}"]], na.rm = T), length = 100),
+        density = dnorm(x = {variable}, mean = mean(.x[["{variable}"]], na.rm = T), sd = sd(.x[["{variable}"]], na.rm = T)),
+        n = nrow(.),
+        bw = (max(.x[["{variable}"]], na.rm = T) - min(.x[["{variable}"]], na.rm = T)) / 30
+      ),
+      .id = "epoch"
+    )
+
+    ggplot() +
+      geom_histogram(
+        data = {data.name}, 
+        aes(y = ..count.., x = {variable}), 
+        binwidth = function(x) {{ (max(x, na.rm = T) - min(x, na.rm = T)) / 30 }}, 
+        colour = "black", 
+        na.rm = TRUE
       ) +
       facet_wrap(~ epoch, ncol = 2, labeller = label_epoch) +
+      geom_line(data = density.df, aes(y = density*bw*n, x = {variable}), colour = "red") +
       theme_minimal() +
       xlab(NULL)
-    ")
+    ')
   }
   
   return(output.code)
