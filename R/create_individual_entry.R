@@ -3,10 +3,10 @@ create_individual_entry <- function(data = merged.df, metadata = metadata.df, va
   write_out(paste0('## Variable: ', variable, '\n'))
   
   if (!is.na(metadata[metadata[["variable"]] == variable, "label"])) {
-    write_out(paste0('### Label: ', metadata[metadata[["variable"]] == variable, "label"], "\n"))
+    write_out(paste0('**Label:** ', metadata[metadata[["variable"]] == variable, "label"], "\n"))
   }
   
-  write_out("\n")
+  # write_out("\n")
   
   if (!is.na(metadata[metadata[["variable"]] == variable, "derivation"])) {
     write_out(paste0('**Description:** ', metadata[metadata[["variable"]] == variable, "derivation"], '\n'))

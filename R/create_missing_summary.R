@@ -3,7 +3,7 @@ create_missing_summary <- function(data = merged.df, epoch = 1:4) {
     write_out(paste0("## Epoch ", epoch.i, " \n"))
     
     if (epoch.i %in% 1) {
-      write_out("There are no missing participants for this epoch.")
+      write_out("There are no participants missing all data for this epoch.")
     } else {
       write_out(paste0(print_missing_participants(data, epoch.i), collapse = ", "))
     }
