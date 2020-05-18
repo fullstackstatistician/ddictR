@@ -54,7 +54,7 @@ create_individual_entry <- function(data = merged.df, metadata = metadata.df, va
   }
   
   if (is.numeric(data[[variable]]) | inherits(data[[variable]], "Date")) {
-    write_out(paste0('### Extreme Values \n'))
+    # write_out(paste0('### Extreme Values \n'))
     chunk_wrapper(paste0('tabulate_extreme_values(variable = \"', variable, '\") %>% kable(format = \"latex\", booktabs = TRUE) %>% kable_styling(position = \"center\")'))
   }
   
