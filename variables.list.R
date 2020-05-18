@@ -67,6 +67,17 @@ neuropsych.var <- Cs(
 
 # Cognitive Complaint
 scd.var <- Cs(
+  faq,
+  fcadl,
+  scc.tot,
+  ccqself.tot,
+  ccqself.short.tot,
+  ccqinform.tot,
+  ccqinform.short.tot,
+  cogdif.tot,
+  mfq.tot,
+  ecogself.tot,
+  ecoginf.tot,
   tot.complaint,
   tot.complaint.short,
   tot.complaint.gifford.45,
