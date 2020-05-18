@@ -9,7 +9,8 @@ plot_distribution <- function(data = merged.df, variable) {
       geom_bar(aes(factor({variable})), na.rm = FALSE) +
       scale_x_discrete(label = c('Ambiguous At Risk' = 'AAR')) +
       facet_wrap(~ epoch, ncol = 2, labeller = label_epoch) +
-      theme_minimal()
+      theme_minimal() +
+      xlab('{variable}')
     ")
   } else if (inherits(data[[variable]], "Date")) {
     output.code <- glue::glue("
@@ -18,10 +19,11 @@ plot_distribution <- function(data = merged.df, variable) {
       scale_x_date(labels = scales::date_format('%Y-%b'), date_breaks = '6 months') +
       facet_wrap(~ epoch, ncol = 2, labeller = label_epoch) +
       theme_minimal() +
-      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+      theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+      xlab('{variable}')
     ")
   } else {
-    output.code <- glue::glue('
+    output.code <- glue::glue("
     ggplot(data = {data.name}) +
       geom_histogram(
         aes(x = {variable}, y = ..count..), 
@@ -29,8 +31,9 @@ plot_distribution <- function(data = merged.df, variable) {
         na.rm = TRUE
       ) +
       facet_wrap(~ epoch, ncol = 2, labeller = label_epoch) +
-      theme_minimal() 
-    ')
+      theme_minimal() +
+      xlab('{variable}')
+    ")
   }
   
   return(output.code)
