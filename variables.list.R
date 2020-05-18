@@ -56,9 +56,11 @@ neuropsych.var <- Cs(
   np.hvot,
   np.memory.composite,
   np.biber.t1to5,
+  # biber interference
   np.biber.ld,
   np.biber.discrim,
   np.cvlt1to5,
+  # cvlt interference
   np.cvlt.ldfr,
   np.cvltrecog.discrim
 )
@@ -73,7 +75,7 @@ scd.var <- Cs(
   tot.complaint.gifford.45.mem
 )
 
-# Cerebrospinal Fluid (CSF) Biomarkers
+# Cerebrospinal Fluid (CSF) Research Biomarkers
 csf.var <- Cs(
   csf.abx42,
   csf.abx40,
@@ -106,7 +108,7 @@ csf.var <- Cs(
   csf.abeta42.40.ratio
 )
 
-# Blood-based Biomarkers
+# Blood-based Research Biomarkers
 blood.var <- Cs(
   biomarkers.leptin,
   biomarkers.il6,
@@ -120,21 +122,24 @@ blood.var <- Cs(
   biomarkers.albumin.plasma
 )
 
-# Cardiac Structure and Function Based on Echo
+# Cardiac Structure and Function -- Echocardiogram
 cardiac.echo.var <- Cs(
+  echo.hrate,
+  echo.lv.stroke.volume,
+  echo.lvot,
   echo.co.calc, 
   echo.cardiac.index,
-  echo.ef.calc,
-  echo.lv.stroke.volume,
-  echo.hrate,
   echo.edv,
   echo.esv,
-  echo.lvot,
+  echo.ef.calc,
   echo.myocardial.contraction.fraction,
-  echo.lvh.factor
+  echo.lvh.factor,
+  echo.lvmass,
+  echo.lvh.scaledlvmass,
+  echo.lvh.scaledlvmass.factor
 )
 
-# Cardiac Structure and Function Based on MRI
+# Cardiac Structure and Function -- MRI
 cardiac.mri.var <- Cs(
   qmass.usable.factor,
   qmass.lv.absolute.ed.mass,
@@ -142,6 +147,12 @@ cardiac.mri.var <- Cs(
   qmass.lv.bsa.indexed.ed.mass,
   qmass.lv.bsa.indexed.co, 
   qmass.lv.absolute.ef,
+  pwv.usable.factor,
+  pwv
+)
+
+# Cardiac Strain -- MRI
+cardiac.strain.mri.var <- Cs(
   qstrain.usable.factor,
   qstrain.2ch.myogls,
   qstrain.2ch.myogcs,
@@ -154,9 +165,7 @@ cardiac.mri.var <- Cs(
   qstrain.mid.delta.rot,
   qstrain.mid.sd.rs.peak,
   qstrain.mid.sd.cs.peak,
-  qstrain.avg.grs,
-  pwv.usable.factor,
-  pwv
+  qstrain.avg.grs
 )
 
 # FSRP and Related Points
@@ -176,9 +185,9 @@ fsrp.points.var <- Cs(
 lobe <- Cs(
   hemisphere,
   frontal.lobe,
-  occipital.lobe,
   temporal.lobe,
-  parietal.lobe
+  parietal.lobe,
+  occipital.lobe
 )
 
 my.lobe <- function(prefix = NULL, lob, suffix = NULL){
@@ -228,8 +237,8 @@ ma.roi <- c(
 
 ma.var <- c(
   'ma.usable.factor', 
-  ma.comp, 
-  ma.roi
+  ma.roi,
+  ma.comp
 )
 
 # Brain MRI:: Cerebrol Blood Flow (CBF) ROI assessed by ASL
@@ -351,34 +360,39 @@ variables.list <- list(
   ),
   
   fsrp.points.var = list(
-    title = "FSRP and Related Points",
+    title = "FSRP",
     variables = fsrp.points.var
   ),
   
   scd.var = list(
-    title = "Cognitive Complaint",
+    title = "Cognitive Complaint Module",
     variables = scd.var
   ),
   
   csf.var = list(
-    title = "Cerebrospinal Fluid (CSF) Biomarkers",
+    title = "Cerebrospinal Fluid (CSF) Research Biomarkers",
     variables = csf.var
   ),
   
   blood.var = list(
-    title = "Blood-based Biomarkers",
+    title = "Blood-based Research Biomarkers",
     variables = blood.var
   ),
   
   cardiac.echo.var = list(
-    title = "Cardiac Structure and Function Based on Echocardiogram",
+    title = "Cardiac Structure and Function -- Echocardiogram",
     variables = cardiac.echo.var
   ),
   
   cardiac.mri.var = list(
-    title = "Cardiac Structure and Function Based on MRI",
+    title = "Cardiac Structure and Function -- MRI",
     variables = cardiac.mri.var
   ),
+  
+  cardiac.strain.mri.var = list(
+    title = "Cardiac Strain -- MRI",
+    variables = cardiac.strain.mri.var
+  )
   
   neuropsych.var = list(
     title = "Neuropsychological Assessment",
@@ -386,17 +400,17 @@ variables.list <- list(
   ),
   
   wml.var = list(
-    title = "Brain MRI: White Matter Volume",
+    title = "Brain MRI: White Matter Hyperintensities (FLAIR)",
     variables = wml.var
   ),
   
   ma.var = list(
-    title = "Brain MRI: Grey Matter Volume",
+    title = "Brain MRI: Grey Matter Volume (T1)",
     variables = ma.var
   ),
   
   asl.var = list(
-    title = "Brain MRI: Cerebral Blood Flow (CBF) ROI assessed by ASL",
+    title = "Brain MRI: Cerebral Blood Flow (CBF) ROI -- PCASL",
     variables = asl.var
   ),
   
