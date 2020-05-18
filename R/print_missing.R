@@ -8,7 +8,7 @@ print_missing <- function(data = merged.df, variable, id = "map.id") {
   if (length(missing.vec) > 0) {
     output.string <- paste0(missing.vec, collapse = ", ")
   } else {
-    output.string <- ""
+    output.string <- "None"
   }
   
   return(output.string)
