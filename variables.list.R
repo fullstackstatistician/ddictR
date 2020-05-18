@@ -72,12 +72,9 @@ scd.var <- Cs(
   scc.tot,
   ccqself.tot,
   ccqself.short.tot,
-  ccqinform.tot,
-  ccqinform.short.tot,
   cogdif.tot,
   mfq.tot,
   ecogself.tot,
-  ecoginf.tot,
   tot.complaint,
   tot.complaint.short,
   tot.complaint.gifford.45,
@@ -403,7 +400,7 @@ variables.list <- list(
   cardiac.strain.mri.var = list(
     title = "Cardiac Strain -- MRI",
     variables = cardiac.strain.mri.var
-  )
+  ),
   
   neuropsych.var = list(
     title = "Neuropsychological Assessment",
