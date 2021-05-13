@@ -1,4 +1,4 @@
-make_metadata <- function(data = merged.df, derivation = NULL, comments = NULL, figure_label = NULL, covariates = NULL, related = NULL, ...) {
+make_metadata <- function(data = merged.df, derivation = NULL, comments = NULL, figure_label = NULL, covariates = NULL, related = NULL, units = NULL, ...) {
   metadata.df <- data.frame(
     variable = names(data),
     label = Hmisc::label(data),
@@ -78,6 +78,21 @@ make_metadata <- function(data = merged.df, derivation = NULL, comments = NULL, 
     metadata.df <- dplyr::full_join(x = metadata.df, y = related, by = "variable")
   } else {
     metadata.df$related_variables <- NA
+  }
+  
+  if (!is.null(units)) {
+    if (!all(units$variable %in% metadata.df$variable)) {
+      warning(
+        paste0(
+          "The following variables with unit data are not in the main data set: ",
+          paste0(setdiff(units$variable, metadata.df$variable), collapse = ", "),
+          ".\n\n"
+        )
+      )
+    }
+    metadata.df <- dplyr::full_join(x = metadata.df, y = units, by = "variable")
+  } else {
+    metadata.df$units <- NA
   }
   
   return(metadata.df)
